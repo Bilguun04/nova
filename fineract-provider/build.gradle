@@ -242,7 +242,19 @@ tasks.register('setBlankPassword') {
     }
 }
 
+def postgresqlDevRunArgs = [
+        '--spring.datasource.hikari.driverClassName=org.postgresql.Driver',
+        '--spring.datasource.hikari.jdbcUrl=jdbc:postgresql://localhost:5432/fineract_tenants',
+        '--spring.datasource.hikari.username=root',
+        '--spring.datasource.hikari.password=postgres',
+        '--fineract.tenant.host=localhost',
+        '--fineract.tenant.port=5432',
+        '--fineract.tenant.username=root',
+        '--fineract.tenant.password=postgres'
+]
+
 bootRun {
+    args = postgresqlDevRunArgs
     jvmArgs = [
             "-Dspring.output.ansi.enabled=ALWAYS"
     ]
@@ -393,6 +405,7 @@ tasks.register('devRun', org.springframework.boot.gradle.tasks.run.BootRun) {
     }
 
     // Inherit all bootRun settings
+    args = postgresqlDevRunArgs
     classpath = bootRun.classpath
     mainClass = bootRun.mainClass
     jvmArgs = bootRun.jvmArgs
